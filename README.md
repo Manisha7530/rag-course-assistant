@@ -14,7 +14,7 @@ The workflow includes:
 - Merging smaller chunks to improve context quality
 - Creating text embeddings using `bge-m3`
 - Finding relevant chunks using Cosine Similarity
-- Retrieving the top relevant transcript chunks
+- Retrieving the most relevant transcript chunks
 - Building a context-aware prompt
 - Generating answers using Llama 3.2 through Ollama
 
@@ -37,7 +37,7 @@ The workflow includes:
 The project uses the following main components:
 
 1. **Whisper** — Converts course audio into text transcripts.
-2. **Chunk Processing** — Splits and merges transcript sections into useful context.
+2. **Chunk Processing** — Processes and merges transcript sections into useful context.
 3. **bge-m3** — Generates vector embeddings for transcript chunks and user questions.
 4. **Cosine Similarity** — Measures similarity between the question embedding and transcript embeddings.
 5. **Llama 3.2** — Generates the final answer using the retrieved course context.
@@ -69,7 +69,7 @@ Context + User Question
 Llama 3.2 via Ollama
       ↓
 Final Answer
-🔍 Semantic Retrieval
+## 🔍 Semantic Retrieval
 
 When a user asks a question, the question is converted into an embedding using bge-m3.
 
@@ -83,12 +83,12 @@ Question Embedding
       ↓
 Cosine Similarity
       ↓
-Top 5 Relevant Chunks
+Top Relevant Chunks
       ↓
 Context
       ↓
 LLM
-🧩 Chunk Processing
+## 🧩 Chunk Processing
 
 During development, I found that very small transcript chunks often provided incomplete context.
 
@@ -108,18 +108,18 @@ Merged Chunk
 
 This provides the language model with more coherent context when answering questions.
 
-💬 Example
+## 💬 Example
 Ask A Question: How does a REST API really work?
 
-Top 5 most similar chunks:
+Top Relevant Chunks:
 ...
 
 Final Answer:
 [Answer generated using the retrieved course context]
 
-The system uses the retrieved transcript context instead of directly answering from the model's general knowledge.
+The system uses the retrieved transcript context as the basis for generating the answer.
 
-📁 Project Structure
+## 📁 Project Structure
 rag-course-assistant/
 │
 ├── Merge_chunks.py
@@ -132,37 +132,37 @@ rag-course-assistant/
 
 Course videos, extracted audio, transcript JSON files, generated embeddings, temporary outputs, and unused demonstration files are excluded from the repository.
 
-⚙️ Requirements
+## ⚙️ Requirements
 Python 3.11+
 FFmpeg
 Whisper
 Ollama
 bge-m3
 llama3.2
-🚀 How to Run
-1. Clone the repository
+##🚀 How to Run
+1. Clone the Repository
 git clone https://github.com/Manisha7530/rag-course-assistant.git
 cd rag-course-assistant
-2. Create a virtual environment
+2. Create a Virtual Environment
 python -m venv .venv
 
 Activate it on Windows:
 
 .venv\Scripts\Activate.ps1
-3. Install dependencies
+3. Install Dependencies
 pip install numpy pandas scikit-learn joblib
 
 Install and configure Whisper and FFmpeg according to your system.
 
-4. Set up Ollama
+4. Set Up Ollama
 
-Make sure Ollama is installed and running.
+Make sure Ollama is installed and running locally.
 
 Pull the required models:
 
 ollama pull bge-m3
 ollama pull llama3.2
-5. Run the RAG pipeline
+5. Run the RAG Pipeline
 
 After preparing the transcript data and embeddings:
 
@@ -174,7 +174,7 @@ Ask A Question: How does a REST API really work?
 
 The system retrieves the most relevant transcript chunks and generates an answer using the local LLM.
 
-💡 What I Learned
+##💡 What I Learned
 
 Building this project helped me understand:
 
@@ -186,7 +186,7 @@ Why chunk size and context quality matter in RAG
 How retrieved context can be passed to an LLM
 How to run LLM inference locally using Ollama
 How preprocessing affects the quality of RAG responses
-📈 Future Improvements
+##📈 Future Improvements
 Improve chunking strategies
 Add metadata filtering
 Implement reranking
@@ -196,8 +196,27 @@ Add conversation history
 Build a FastAPI backend
 Create a web interface
 Add RAG evaluation metrics
-👩‍💻 Author
+##👩‍💻 Author
 
 Manisha Kumari
 
 GitHub: Manisha7530
+
+##⭐ If you find this project interesting, feel free to explore the repository and give it a star.
+
+
+### One important correction
+
+I changed this:
+
+> "The system uses the retrieved transcript context instead of directly answering from the model's general knowledge."
+
+to:
+
+> "The system uses the retrieved transcript context as the basis for generating the answer."
+
+That's safer and more accurate for your current implementation because your prompt explicitly instructs the LLM to use only the supplied course transcript context. :contentReference[oaicite:0]{index=0}
+
+And your retrieval implementation really does generate the question embedding, calculate cosine similarity, and select the top chunks. :contentReference[oaicite:1]{index=1}
+
+**Replace the whole current README rather than trying to fix individual lines.** That will be much faster and will make the GitHub page look professional before you use it for LinkedIn.
