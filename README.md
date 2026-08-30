@@ -69,14 +69,17 @@ Context + User Question
 Llama 3.2 via Ollama
       ↓
 Final Answer
+```
+
 ## 🔍 Semantic Retrieval
 
-When a user asks a question, the question is converted into an embedding using bge-m3.
+When a user asks a question, the question is converted into an embedding using `bge-m3`.
 
-The system then calculates Cosine Similarity between the question embedding and the stored transcript embeddings.
+The system then calculates **Cosine Similarity** between the question embedding and the stored transcript embeddings.
 
 The most similar chunks are selected and provided as context to the language model.
 
+```text
 User Question
       ↓
 Question Embedding
@@ -88,6 +91,8 @@ Top Relevant Chunks
 Context
       ↓
 LLM
+```
+
 ## 🧩 Chunk Processing
 
 During development, I found that very small transcript chunks often provided incomplete context.
@@ -96,6 +101,7 @@ To improve retrieval quality, consecutive transcript chunks are merged before cr
 
 For example:
 
+```text
 Small Chunks
     ↓
 Chunk 1
@@ -105,10 +111,13 @@ Chunk 4
 Chunk 5
     ↓
 Merged Chunk
+```
 
 This provides the language model with more coherent context when answering questions.
 
 ## 💬 Example
+
+```text
 Ask A Question: How does a REST API really work?
 
 Top Relevant Chunks:
@@ -116,10 +125,13 @@ Top Relevant Chunks:
 
 Final Answer:
 [Answer generated using the retrieved course context]
+```
 
 The system uses the retrieved transcript context as the basis for generating the answer.
 
 ## 📁 Project Structure
+
+```text
 rag-course-assistant/
 │
 ├── Merge_chunks.py
@@ -129,94 +141,107 @@ rag-course-assistant/
 ├── video_to_mp3.py
 ├── README.md
 └── .gitignore
+```
 
-Course videos, extracted audio, transcript JSON files, generated embeddings, temporary outputs, and unused demonstration files are excluded from the repository.
+> Course videos, extracted audio, transcript JSON files, generated embeddings, temporary outputs, and unused demonstration files are excluded from the repository.
 
 ## ⚙️ Requirements
-Python 3.11+
-FFmpeg
-Whisper
-Ollama
-bge-m3
-llama3.2
-##🚀 How to Run
-1. Clone the Repository
+
+- Python 3.11+
+- FFmpeg
+- Whisper
+- Ollama
+- `bge-m3`
+- `llama3.2`
+
+## 🚀 How to Run
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/Manisha7530/rag-course-assistant.git
 cd rag-course-assistant
-2. Create a Virtual Environment
+```
+
+### 2. Create a Virtual Environment
+
+```bash
 python -m venv .venv
+```
 
 Activate it on Windows:
 
+```powershell
 .venv\Scripts\Activate.ps1
-3. Install Dependencies
+```
+
+### 3. Install Dependencies
+
+```bash
 pip install numpy pandas scikit-learn joblib
+```
 
 Install and configure Whisper and FFmpeg according to your system.
 
-4. Set Up Ollama
+### 4. Set Up Ollama
 
 Make sure Ollama is installed and running locally.
 
 Pull the required models:
 
+```bash
 ollama pull bge-m3
 ollama pull llama3.2
-5. Run the RAG Pipeline
+```
+
+### 5. Run the RAG Pipeline
 
 After preparing the transcript data and embeddings:
 
+```bash
 python process_incoming.py
+```
 
 Enter your question when prompted:
 
+```text
 Ask A Question: How does a REST API really work?
+```
 
 The system retrieves the most relevant transcript chunks and generates an answer using the local LLM.
 
-##💡 What I Learned
+## 💡 What I Learned
 
 Building this project helped me understand:
 
-How Retrieval-Augmented Generation works
-How text embeddings represent semantic information
-How semantic search can retrieve relevant information
-How Cosine Similarity can be used for retrieval
-Why chunk size and context quality matter in RAG
-How retrieved context can be passed to an LLM
-How to run LLM inference locally using Ollama
-How preprocessing affects the quality of RAG responses
-##📈 Future Improvements
-Improve chunking strategies
-Add metadata filtering
-Implement reranking
-Add source and timestamp citations
-Improve retrieval evaluation
-Add conversation history
-Build a FastAPI backend
-Create a web interface
-Add RAG evaluation metrics
-##👩‍💻 Author
+- How Retrieval-Augmented Generation works
+- How text embeddings represent semantic information
+- How semantic search can retrieve relevant information
+- How Cosine Similarity can be used for retrieval
+- Why chunk size and context quality matter in RAG
+- How retrieved context can be passed to an LLM
+- How to run LLM inference locally using Ollama
+- How preprocessing affects the quality of RAG responses
 
-Manisha Kumari
+## 📈 Future Improvements
 
-GitHub: Manisha7530
+- Improve chunking strategies
+- Add metadata filtering
+- Implement reranking
+- Add source and timestamp citations
+- Improve retrieval evaluation
+- Add conversation history
+- Build a FastAPI backend
+- Create a web interface
+- Add RAG evaluation metrics
 
-##⭐ If you find this project interesting, feel free to explore the repository and give it a star.
+## 👩‍💻 Author
 
+**Manisha Kumari**
 
-### One important correction
+GitHub: [Manisha7530](https://github.com/Manisha7530)
 
-I changed this:
+---
 
-> "The system uses the retrieved transcript context instead of directly answering from the model's general knowledge."
+⭐ If you find this project interesting, feel free to explore the repository and give it a star.
 
-to:
-
-> "The system uses the retrieved transcript context as the basis for generating the answer."
-
-That's safer and more accurate for your current implementation because your prompt explicitly instructs the LLM to use only the supplied course transcript context. :contentReference[oaicite:0]{index=0}
-
-And your retrieval implementation really does generate the question embedding, calculate cosine similarity, and select the top chunks. :contentReference[oaicite:1]{index=1}
-
-**Replace the whole current README rather than trying to fix individual lines.** That will be much faster and will make the GitHub page look professional before you use it for LinkedIn.
