@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Course media
+Rest API tutorial/
+audios/
+
+# Generated / processed course data
+jsons/
+newjsons/
+embeddings.joblib
+
+# Temporary / generated files
+prompt.txt
+response.txt
+
+# Unused experiments
+unused_demofiles/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
